@@ -5,7 +5,15 @@ from pydantic import BaseModel
 
 import config
 
-me.connect('url_shortener')
+me.connect(
+    db=config.Database.NAME,
+    host=config.Database.HOST,
+    port=config.Database.PORT,
+    username=config.Database.USERNAME,
+    password=config.Database.PASSWORD,
+    authentication_source=config.Database.AUTH_SOURCE,
+)
+
 app = FastAPI()
 
 
@@ -29,8 +37,8 @@ def do_redirect(key: str):
 
 @app.post('/redirect')
 def add_redirect_rule(request: Request, redirect_rule: RedirectRule, token: str):
-    if token != config.TOKEN:
-        raise HTTPException(401)
+    if token != config.Secrets.TOKEN:
+        raise HTTPException(status.HTTP_401_UNAUTHORIZED)
 
     redirect_rule_doc: RedirectRuleDoc = RedirectRuleDoc.objects(key=redirect_rule.key).first()
 
@@ -46,8 +54,8 @@ def add_redirect_rule(request: Request, redirect_rule: RedirectRule, token: str)
 if __name__ == '__main__':
     uvicorn.run(
         'app:app',
-        host=config.HOST,
-        port=config.PORT,
-        ssl_certfile=config.SSL_CERTFILE,
-        ssl_keyfile=config.SSL_KEYFILE,
+        host=config.App.HOST,
+        port=config.App.PORT,
+        ssl_certfile=config.SSL.CERTFILE,
+        ssl_keyfile=config.SSL.KEYFILE,
     )
