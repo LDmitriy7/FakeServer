@@ -45,7 +45,7 @@ def add_redirect_rule(request: Request, redirect_rule: RedirectRule, token: str)
 
 if __name__ == '__main__':
     uvicorn.run(
-        'main:app',
+        'app:app',
         host=config.HOST,
         port=config.PORT,
         ssl_certfile=config.CERT_FILE,
