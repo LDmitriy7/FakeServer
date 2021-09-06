@@ -48,6 +48,6 @@ if __name__ == '__main__':
         'app:app',
         host=config.HOST,
         port=config.PORT,
-        ssl_certfile=config.CERT_FILE,
-        ssl_keyfile=config.KEY_FILE,
+        ssl_certfile=config.SSL_CERTFILE,
+        ssl_keyfile=config.SSL_KEYFILE,
     )
