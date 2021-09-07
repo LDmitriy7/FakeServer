@@ -24,8 +24,8 @@ class Database:
 class SSL:
     ssl = env['SSL']
 
-    CERTFILE = ssl['certfile']
-    KEYFILE = ssl['keyfile']
+    CERTFILE = ssl.get('certfile')
+    KEYFILE = ssl.get('keyfile')
 
 
 class Secrets:

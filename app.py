@@ -23,7 +23,7 @@ class RedirectRule(BaseModel):
 
 
 class RedirectRuleDoc(me.Document):
-    key: str = me.StringField(unique=True)
+    key: str = me.StringField()
     url: str = me.StringField()
 
 
@@ -43,10 +43,9 @@ def add_redirect_rule(request: Request, redirect_rule: RedirectRule, token: str)
     redirect_rule_doc: RedirectRuleDoc = RedirectRuleDoc.objects(key=redirect_rule.key).first()
 
     if redirect_rule_doc:
-        redirect_rule_doc.url = redirect_rule.url
-        redirect_rule_doc.save()
-    else:
-        RedirectRuleDoc(**redirect_rule.dict()).save()
+        raise HTTPException(status.HTTP_409_CONFLICT, detail='This key already exists')
+
+    RedirectRuleDoc(**redirect_rule.dict()).save()
 
     return {'short_url': request.url_for('do_redirect', key=redirect_rule.key)}
 
