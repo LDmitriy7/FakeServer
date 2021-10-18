@@ -1,36 +1,28 @@
 from typing import Optional
 
-from fastapi import HTTPException, responses, status, Response, Request, Header
-# from fastapi.middleware.cors import CORSMiddleware
+from fastapi import HTTPException, responses, status, Request, Header
 
+import api
 import config
 from loader import app
 from models import documents, models
 
 
-# origins = [
-#     "https://my-bots.ru",
-# ]
-#
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=origins,
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+@app.get('/test')
+def test():
+    content = api.render_template('redirect.html', redirect_url='https://www.web-api.eu/myreferer/')
+    return responses.HTMLResponse(content)
 
 
 @app.get('/go/{rule_key}')
-def go_rule_by_key(response: Response, rule_key: str):
+def go_rule_by_key(rule_key: str):
     go_rule_doc: documents.GoRule = documents.GoRule.objects(key=rule_key).first()
 
     if go_rule_doc is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND)
 
-    # response.headers['Referer-policy'] = 'origin'
-
-    return responses.RedirectResponse(go_rule_doc.url, headers={'Referer-policy': 'origin'})
+    content = api.render_template('redirect.html', redirect_url=go_rule_doc.url)
+    return responses.HTMLResponse(content)
 
 
 @app.post('/go')
@@ -50,5 +42,5 @@ def add_go_rule(request: Request, go_rule: models.GoRule, token: Optional[str] =
 
 @app.get('/go')
 def go(url: str):
-    print(url)
-    return responses.RedirectResponse(url)
+    content = api.render_template('redirect.html', redirect_url=url)
+    return responses.HTMLResponse(content)
