@@ -1,34 +1,34 @@
 import toml
 
-env = toml.load('env.toml')
+_env = toml.load('env.toml')
 
 
 class App:
-    app = env['App']
+    _data = _env['App']
 
-    HOST = app['host']
-    PORT = app['port']
-
-
-class Database:
-    db = env['Database']
-
-    NAME = db['name']
-    HOST = db.get('host')
-    PORT = db.get('port')
-    USERNAME = db.get('username')
-    PASSWORD = db.get('password')
-    AUTH_SOURCE = db.get('auth_source', 'admin')
+    HOST = _data['HOST']
+    PORT = _data['PORT']
 
 
 class SSL:
-    ssl = env['SSL']
+    _data = _env['SSL']
 
-    CERTFILE = ssl.get('certfile')
-    KEYFILE = ssl.get('keyfile')
+    CERTFILE = _data.get('CERTFILE')
+    KEYFILE = _data.get('KEYFILE')
+
+
+class Database:
+    _data = _env['Database']
+
+    NAME = _data['NAME']
+    HOST = _data.get('HOST')
+    PORT = _data.get('PORT')
+    USERNAME = _data.get('USERNAME')
+    PASSWORD = _data.get('PASSWORD')
+    AUTH_SOURCE = _data.get('AUTH_SOURCE', 'admin')
 
 
 class Secrets:
-    secrets = env['Secrets']
+    _data = _env['Secrets']
 
-    TOKEN = secrets['token']
+    TOKEN = _data['TOKEN']

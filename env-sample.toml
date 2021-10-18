@@ -1,0 +1,18 @@
+[App]
+HOST = 'localhost'
+PORT = 443
+
+[SSL]
+#CERTFILE = 'cert.pem'
+#KEYFILE = 'privkey.pem'
+
+[Database]
+NAME = 'test'
+#USERNAME = 'root'
+#PASSWORD = ''
+#HOST = 'localhost'
+#PORT = 27017
+#AUTH_SOURCE = 'admin'
+
+[Secrets]
+TOKEN = ''
