@@ -8,8 +8,8 @@ __all__ = ['app']
 if __name__ == '__main__':
     uvicorn.run(
         f'{__name__}:app',
-        host=config.App.HOST,
-        port=config.App.PORT,
-        ssl_certfile=config.SSL.CERTFILE,
-        ssl_keyfile=config.SSL.KEYFILE,
+        host=config.APP_HOST,
+        port=config.APP_PORT,
+        ssl_certfile=config.SSL_CERTFILE,
+        ssl_keyfile=config.SSL_KEYFILE,
     )
